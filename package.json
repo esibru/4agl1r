@@ -1,0 +1,14 @@
+{
+    "devDependencies": {
+        "vitepress": "^1.6.3"
+    },
+    "scripts": {
+        "dev": "vitepress dev .",
+        "build": "vitepress build .",
+        "preview": "vitepress preview ."
+    },
+    "dependencies": {
+        "esbuild": "^0.27.2",
+        "markdown-it-footnote": "^4.0.0"
+    }
+}
