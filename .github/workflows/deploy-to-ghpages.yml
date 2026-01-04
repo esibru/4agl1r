@@ -3,6 +3,9 @@ name: Deploy VitePress site to Pages
 on:
   push:
     branches: [main]
+    paths:
+        - 'slides/**'
+        - 'src/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
