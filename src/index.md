@@ -8,8 +8,3 @@ Bien que les sujets abordés soient les mêmes pour tous les groupes, ces suppor
 
 
 
-- Introduction [[pdf](slides/agl1r-intro.pdf)] [[html](slides/agl1r-intro.html)]
-- Rappels linux [[pdf](slides/rappels-linux.pdf)] [[html](slides/rappels-linux.html)]
-- Rappels réseaux [[pdf](slides/rappels-reseaux.pdf)] [[html](slides/rappels-reseaux.html)]
-
-
