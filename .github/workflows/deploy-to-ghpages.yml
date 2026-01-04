@@ -39,6 +39,11 @@ jobs:
           cache: npm # or pnpm / yarn
       - name: Setup Pages
         uses: actions/configure-pages@v4
+      # VitePress
+      - name: Install dependencies
+        run: npm ci 
+      - name: Build with VitePress
+        run: npm run build # or pnpm docs:build / yarn docs:build / bun run docs:build
       # Marp
       - name: Install Marp CLI
         run: npm install -g @marp-team/marp-cli
@@ -50,11 +55,6 @@ jobs:
             marp "$file" --pdf --allow-local-files --output "public/slides/$(basename "${file%.md}.pdf")"
             marp "$file" --html --allow-local-files --output "public/slides/$(basename "${file%.md}.html")"
           done
-      # VitePress
-      - name: Install dependencies
-        run: npm ci 
-      - name: Build with VitePress
-        run: npm run build # or pnpm docs:build / yarn docs:build / bun run docs:build
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
