@@ -22,7 +22,9 @@ export default defineConfig({
       {
         text: 'AGL1r',
         items: [
-          { text: 'Virtualisation', link: '/organisation' }
+          { text: 'Configuration réseau', link: '/configuration-reseau' },
+          { text: 'SSH', link: '/td-ssh' },
+          { text: 'DNS', link: '/td-dns' },
           
         ]
       },
