@@ -8,3 +8,6 @@ Bien que les sujets abordés soient les mêmes pour tous les groupes, ces suppor
 
 
 
+- Introduction [[pdf](slides/agl1r-intro.pdf)] [[html](slides/agl1r-intro.html)]
+
+
