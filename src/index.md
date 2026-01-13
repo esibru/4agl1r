@@ -1,11 +1,11 @@
-# 4AGL1r - Administration et gestion des réseaux
+# 4AGL1r - Administration et gestion des réseaux Linux
 
-Support de cours pour le cours d'administration et gestion des réseaux pour l'option **réseaux**. 
+Support de cours pour le cours d'administration et gestion des réseaux linux pour l'option **réseaux**. 
 
 [Fiche ECTS](https://ects.esi-bru.be/online/cours/ac2526_4agl1r_4agl1r.html)
 
 :::warning
-Bien que les sujets abordés soient les mêmes pour tous les groupes, ces supports concerne le cours de Pierre Bettens _pbt_.
+Bien que les sujets abordés soient les mêmes pour tous les groupes, des différences apparaitront en fonction du local (et donc du matériel) attribué au cours.
 ::: 
 
 ## Définition
@@ -24,9 +24,16 @@ C'est principalement à cette couche que le cours s'intéresse.
 - Slide d'ntroduction [[pdf](slides/agl1r-intro.pdf)] [[html](slides/agl1r-intro.html)]
 - Slides de rappels linux [[pdf](slides/rappels-linux.pdf)] [[html](slides/rappels-linux.html)]
 - Slides de rappels réseaux [[pdf](slides/rappels-reseaux.pdf)] [[html](slides/rappels-reseaux.html)]
+- PAM
+    - Slides PAM [[pdf](slides/pam.pdf)] [[html](slides/pam.html)]
+    - [Manip PAM](td-pam)
 - SSH
     - Slides SSH [[pdf](slides/ssh.pdf)] [[html](slides/ssh.html)]
-    - Slides PAM [[pdf](slides/pam.pdf)] [[html](slides/pam.html)]
     - [Manip SSH](td-ssh)
+- DNS
+    - Slides DNS [[pdf](slides/dns.pdf)] [[html](slides/dns.html)]
+    - [Manip DNS](td-dns)
+
+
 
 

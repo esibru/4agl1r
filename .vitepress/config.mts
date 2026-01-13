@@ -21,8 +21,10 @@ export default defineConfig({
     sidebar: [
       {
         text: 'AGL1r',
+        link: '/index',
         items: [
           { text: 'Configuration réseau', link: '/configuration-reseau' },
+          { text: 'PAM', link: '/td-pam' },
           { text: 'SSH', link: '/td-ssh' },
           { text: 'DNS', link: '/td-dns' },
           
