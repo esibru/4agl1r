@@ -27,6 +27,9 @@ export default defineConfig({
           { text: 'PAM', link: '/td-pam' },
           { text: 'SSH', link: '/td-ssh' },
           { text: 'DNS', link: '/td-dns' },
+          { text: 'DHCP', link: '/td-dhcp' },
+          { text: 'HTTP[s]', link: '/td-http-s' },
+          { text: 'LDAP', link: '/td-ldap' },
           
         ]
       },
