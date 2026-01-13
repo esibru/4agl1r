@@ -2,12 +2,7 @@
 
 Les lectures suivantes pourront être utiles :
 
-- Morgan, A.G. & Kukuk T. (2005). *The Linux-PAM Guides*  
-  http://www.kernel.org/pub/linux/libs/pam/
-    - *System Administrators' Guide*  
-  http://www.kernel.org/pub/linux/libs/pam/Linux-PAM-html/pam.html
-    - *Application Developers' Manual*  
-  http://www.kernel.org/pub/linux/libs/pam/Linux-PAM-html/pam_appl.html
+- [The Linux-PAM Guide](https://www.chiark.greenend.org.uk/doc/libpam-doc/html/Linux-PAM_SAG.html) 
 - Page de manuel : `man pam`
 
 :::danger Un peu de prudence…
