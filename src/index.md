@@ -33,6 +33,15 @@ C'est principalement à cette couche que le cours s'intéresse.
 - DNS
     - Slides DNS [[pdf](slides/dns.pdf)] [[html](slides/dns.html)]
     - [Manip DNS](td-dns)
+- DHCP
+    - Slides DHCP [[pdf](slides/dhcp.pdf)] [[html](slides/dhcp.html)]
+    - [Manip DHCP](td-dhcp)
+- HTTP[s] / Serveurs web (Apache2, nginx, CaddyServer)
+    - Slides DHCP [[pdf](slides/http-s-webservers.pdf)] [[html](slides/http-s-webservers.html)]
+    - [Manip HTTP[s], Apache2](td-http-s)
+- LDAP 
+    - Slides LDAP [[pdf](slides/ldap.pdf)]  [[html](slides/ldap.html)]
+    - [Manip LDAP](td-ldap)
 
 
 

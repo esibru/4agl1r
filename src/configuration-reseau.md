@@ -1,5 +1,9 @@
 # Configuration réseau
 
+:::warning
+Les plages d'adresses peuvent varier en fonction du groupe, du local, de l'année, du nombre d'étudiants et d'étudiantes… de _l'humeur_.
+:::
+
 Nous allons utiliser les plages suivantes : `172.16.0.0/17` à `172.31.128.0/17` (soient 32 plages disponibles). 
 
 Dans la suite, nous attribuons 2 valeurs aux étudiants : _i_ et _j_
@@ -29,6 +33,11 @@ Le réseau aura la topologie suivante :
 | **Routeur**  Interface DMZ | `10.k.0.1/16` |
 
 Le routeur possède deux interfaces réseau, une dans chaque zone, et assure le routage et le filtrage entre le réseau privé et la DMZ.
+
+:::warning
+Des détails supplémentaires seront probablement donnés au cours.
+:::
+
 
 ## Routage statique
 
