@@ -417,7 +417,7 @@ Références
 
 ---
 ### Exercice
-Une page html, un serveur… illustrer la gestion du cache \textit{via} son navigateur. 
+Une page html, un serveur… illustrer la gestion du cache _via_ son navigateur. 
 
 <!--
 _class: inverted-orange
