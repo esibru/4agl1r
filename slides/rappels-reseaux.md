@@ -219,6 +219,9 @@ Exemple :  192 . 168 .  1  . 10
 > **En résumé :**  
 > La notation `/12` pour la plage privée permet de couvrir tous les réseaux privés de classe B, et pas seulement un seul réseau en `/16`.
 
+
+---
+
 ## Pourquoi la plage privée Classe C est en /16 ?
 
 - Historiquement, la **classe C** correspond à des réseaux en `/24` (soit 256 adresses par réseau).
