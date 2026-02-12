@@ -27,15 +27,22 @@ Le réseau aura la topologie suivante :
 
 | Zone | Réseau | 
 |------|--------|
-| **LAN** | `172.i.j.0/17` |
-| **DMZ** | `10.k.0.0/16` |
-| **Routeur**  Interface privée | `172.i.j.1/17` |
-| **Routeur**  Interface DMZ | `10.k.0.1/16` |
+| **LAN** | `172.i.j.0 /17` |
+| **DMZ** | `10.0.0.0 /16` |
+| **Routeur**  Interface privée | `172.i.j.1 /17` |
+| **Routeur**  Interface DMZ | `10.k.l.m /16` |
+
+- `i` et `j` sont attribués à chaque personne
+- `k.l.m` est attribué à chaque machine par le serveur DHCP de `pica`[^f1].
+
+
+[^f1]: Je déconseille de changer cette IP car le serveur DNS ne serait pas mis à jour. 
 
 Le routeur possède deux interfaces réseau, une dans chaque zone, et assure le routage et le filtrage entre le réseau privé et la DMZ.
 
 :::warning
 Des détails supplémentaires seront probablement donnés au cours.
+
 :::
 
 
@@ -203,23 +210,29 @@ ufw delete allow 80/tcp
 
 Voici les commandes équivalentes avec iptables :
 
-```bash
-# Politique par défaut
-iptables -P INPUT DROP
-iptables -P FORWARD DROP
-iptables -P OUTPUT ACCEPT
-# Autoriser le LAN vers la DMZ
-iptables -A FORWARD -s 172.i.j.0/17 -d 10.k.0.0/16 -j ACCEPT
-iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
-# Bloquer la DMZ vers le LAN
-iptables -A FORWARD -s 10.k.0.0/16 -d 172.i.j.0/17 -j DROP
-# Autoriser Internet vers les services DMZ (HTTP/HTTPS)
-iptables -A FORWARD -i eth2 -d 10.k.0.0/16 -p tcp --dport 80 -j ACCEPT
-iptables -A FORWARD -i eth2 -d 10.k.0.0/16 -p tcp --dport 443 -j ACCEPT
-# Sauvegarder les règles
-iptables-save > /etc/iptables/rules.v4
-```
 
 :::warning
 Vérifiez bien les noms de vos interfaces réseau avant d'appliquer ces règles.
 :::
+
+
+:::info Note
+**UFW** reste l'outil recommandé pour ce TP car il est simple, toujours maintenu et que notre objectif est une première approche des _firewalls_. Sous le capot, UFW utilise désormais **nftables** comme backend (depuis Debian 10).
+
+D'autres distributions — à base de RedHat — utilisent **firewalld**.
+
+Pour 
+:::
+
+:::warning 
+`iptables` est _legacy_ depuis ± 2020. 
+
+Debian utilise `iptables-nft` pour assurer une couche de compatibilité entre `ipatbles` et `nftables`. 
+::: 
+
+
+_Pour aller plus loin…_ 
+
+Pour des besoins avancés, on utilisera une machine dédiée et des firewalls de plus haut niveau : **pfSense** 
+
+
