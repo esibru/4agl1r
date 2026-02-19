@@ -48,6 +48,10 @@ Des détails supplémentaires seront probablement donnés au cours.
 
 ## Routage statique
 
+:::danger
+Vous trouverez ci-dessous des **éléments** de configuration. L'exercice ne **consiste pas** à recopier ces commandes sans réfléchir **avant**.
+:::
+
 Une machine linux peut agir comme un routeur. Pour ce faire : 
 
 1. activer l'_IP forwarding_
@@ -67,28 +71,27 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
     ```
     auto eth0
     iface eth0 inet static
-         address 172.i.j.1
-         netmask 255.255.128.0
+         address 172.i.j.1 /17
 
     auto eth1
     iface eth1 inet static
-         address 10.k.0.1
-         netmask 255.255.0.0
+         address 10.k.l.1 /8
     ```
 
     :::warning
     Bien sûr, il faut d'abord trouver le nom de ses interfaces. 
     :::
 
+
     :::danger
     Dans le cas du laboratoire virtuel, **ne modifiez pas** l'adresse reçue par le serveur DHCP du local (celle de la forme `10.1.0.i`). 
 
-    En d'autres mots, laissez bien intacte la ligne `iface enp1s0 inet dhcp`.
+    En d'autres mots, laissez bien intacte la ligne `iface enp1s0 inet dhcp` et ajoutez `auto enp1s0`. 
 
     _… pourquoi ?_
     ::: 
 
-3. ajouter les routes statiques. Soit directement, à cous de `ip route`, 
+3. ajouter / vérifier les routes statiques. Soit directement, à cous de `ip route`, 
 
     ```bash
     ip route add 10.k.0.0/16 via 10.k.0.1 dev eth1
@@ -117,6 +120,24 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
     ```bash
     systemctl restart networking
     ```
+
+5. activer le NAT (_network address translation_) : 
+
+    ```bash
+    iptables -t nat -A POSTROUTING -o enp1s0 -j MASQUERADE
+    ```
+
+    Pour vérifier la configuration `iptables -t nat -L POSTROUTING -n -v`.
+
+    Dès qu'une machine fonctionne comme routeur, elle peut transferer les paquets mais si elle ne les _marque_ pas au passage, elle ne pourrait les réattribuer à la _bonne machine_ au retour. C'est à ça que sert le _masquerading_. 
+
+    :::warning
+    `iptables` est _legacy_ et il est encouragé d'utiliser `nftables` **mais**…
+
+    Debian utilise `iptables-nft` pour conserver les commandes `iptables` et les traduire pour le noyau en commandes « nft » (_via_ la lib `libnftln`).
+    :::
+
+
 
 ## Configuration du firewall
 
