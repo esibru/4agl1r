@@ -80,6 +80,14 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
     Bien sûr, il faut d'abord trouver le nom de ses interfaces. 
     :::
 
+    :::danger
+    Dans le cas du laboratoire virtuel, **ne modifiez pas** l'adresse reçue par le serveur DHCP du local (celle de la forme `10.1.0.i`). 
+
+    En d'autres mots, laissez bien intacte la ligne `iface enp1s0 inet dhcp`.
+
+    _… pourquoi ?_
+    ::: 
+
 3. ajouter les routes statiques. Soit directement, à cous de `ip route`, 
 
     ```bash
