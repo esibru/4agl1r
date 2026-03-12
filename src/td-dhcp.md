@@ -23,8 +23,8 @@ Ce serveur doit :
 
 |**Exigences**||
 |:--|:--|
-|Plage d'adresses | `10.i.0.1/8` à `10.i.0.255/8` (où `i` vous est attribué)
-|Passerelle par défaut (_default gateway_) |`10.0.0.1`
+|Plage d'adresses | `172.i.j.0 /17` (où `i` et `j` vous sont attribués)
+|Passerelle par défaut (_default gateway_) |`172.i.j.1`
 |Serveurs DNS  | `10.0.0.1`
 |Nom de domaine | `in.esigoto.info`
 
@@ -37,7 +37,7 @@ Configurez une réservation d'adresse IP basée sur l'adresse MAC de votre machi
 
 |**Exigences**|
 |:--|
-|Attribuez l'adresse `10.i.0.42` à votre machine
+|Attribuez l'adresse `172.i.j.42` à votre machine
 
 
 ## Exercice avancé : DHCPv6
