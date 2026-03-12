@@ -20,7 +20,7 @@ Le réseau aura la topologie suivante :
 
 - l'accès Internet passe par un _firewall_;
 - un routeur permet de séparer la zone _LAN_ de la zone _DMZ_;
-- le LAN a une plage d'adresse spécifique dans `176.i.0.0/17`
+- le LAN a une plage d'adresse spécifique dans `172.i.j.0/17`
 - la DMZ a également sa plage d'adresses
 
 **Plan d'adressage**
@@ -28,9 +28,9 @@ Le réseau aura la topologie suivante :
 | Zone | Réseau | 
 |------|--------|
 | **LAN** | `172.i.j.0 /17` |
-| **DMZ** | `10.0.0.0 /16` |
+| **DMZ** | `10.0.0.0 /8` |
 | **Routeur**  Interface privée | `172.i.j.1 /17` |
-| **Routeur**  Interface DMZ | `10.k.l.m /16` |
+| **Routeur**  Interface DMZ | `10.k.l.m /8` |
 
 - `i` et `j` sont attribués à chaque personne
 - `k.l.m` est attribué à chaque machine par le serveur DHCP de `pica`[^f1].
@@ -75,7 +75,7 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
 
     auto eth1
     iface eth1 inet static
-         address 10.k.l.1 /8
+         address 10.k.l.m /8
     ```
 
     :::warning
@@ -94,7 +94,7 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
 3. ajouter / vérifier les routes statiques. Soit directement, à cous de `ip route`, 
 
     ```bash
-    ip route add 10.k.0.0/16 via 10.k.0.1 dev eth1
+    ip route add 10.k.0.0/8 via 10.k.0.1 dev eth1
     ip route add 172.i.j.0/17 via 172.i.j.1 dev eth0
     ```
 
@@ -111,7 +111,7 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
     iface eth1 inet static
          address 10.k.0.1
          netmask 255.255.0.0
-         up ip route add 10.k.0.0/16 dev eth1
+         up ip route add 10.k.0.0/8 dev eth1
     ```
 
 
@@ -129,12 +129,12 @@ Une machine linux peut agir comme un routeur. Pour ce faire :
 
     Pour vérifier la configuration `iptables -t nat -L POSTROUTING -n -v`.
 
-    Dès qu'une machine fonctionne comme routeur, elle peut transferer les paquets mais si elle ne les _marque_ pas au passage, elle ne pourrait les réattribuer à la _bonne machine_ au retour. C'est à ça que sert le _masquerading_. 
+    Dès qu'une machine fonctionne comme routeur, elle peut transférer les paquets mais si elle ne les _marque_ pas au passage, elle ne pourrait les réattribuer à la _bonne machine_ au retour. C'est à ça que sert le _masquerading_. 
 
     :::warning
     `iptables` est _legacy_ et il est encouragé d'utiliser `nftables` **mais**…
 
-    Debian utilise `iptables-nft` pour conserver les commandes `iptables` et les traduire pour le noyau en commandes « nft » (_via_ la lib `libnftln`).
+    Debian utilise `iptables-nft` pour conserver les commandes `iptables` et les traduire pour le noyau en commandes « nft » (_via_ la lib `libnftln`). Donc _tout va bien_ à ce niveau là.
     :::
 
 
@@ -204,6 +204,9 @@ ufw delete allow 80/tcp
 
 ### Configuration du firewall entre LAN et DMZ
 
+_Les commandes suivantes illustrent ce qu'il faut faire. elles ne se veulent pas être un pas à pas à recopier mais une piste à adapter à votre contexte._
+
+
 1. Activer UFW et définir les règles par défaut
 
     ```bash
@@ -212,33 +215,34 @@ ufw delete allow 80/tcp
     ufw enable
     ```
 
+    :::tip
+    Il suffit sans doute de vérifier la config par défaut.
+    ::: 
+
 2. Autoriser le LAN à accéder à la DMZ
     
     ```bash
     # Autoriser tout le trafic du LAN vers la DMZ
-    ufw allow from 172.i.j.0/17 to 10.k.0.0/16
+    ufw allow from 172.i.j.0/17 to 10.0.0.0/8
     
     # Ou de manière plus restrictive, autoriser uniquement certains services
-    ufw allow from 172.i.j.0/17 to 10.k.0.0/16 proto tcp port 80
-    ufw allow from 172.i.j.0/17 to 10.k.0.0/16 proto tcp port 443
+    ufw allow from 172.i.j.0/17 to 10.0.0.0/8 proto tcp port 80
+    ufw allow from 172.i.j.0/17 to 10.0.0.0/8 proto tcp port 443
     ```
 
 3. Bloquer l'accès de la DMZ vers le LAN
 
     ```bash
-    ufw deny from 10.k.0.0/16 to 172.i.j.0/17
+    ufw deny from 10.0.0.0/8 to 172.i.j.0/17
     ```
 
 4. Autoriser Internet à accéder aux services de la DMZ (à adapter en fonction des services)
 
     Par exemple :
     ```bash
-    ufw allow in on eth2 to 10.k.0.0/16 proto tcp port 80
-    ufw allow in on eth2 to 10.k.0.0/16 proto tcp port 443
+    ufw allow in on eth2 to 10.0.0.0/8 proto tcp port 80
+    ufw allow in on eth2 to 10.0.0.0/8 proto tcp port 443
     ```
-
-Voici les commandes équivalentes avec iptables :
-
 
 :::warning
 Vérifiez bien les noms de vos interfaces réseau avant d'appliquer ces règles.
@@ -246,7 +250,7 @@ Vérifiez bien les noms de vos interfaces réseau avant d'appliquer ces règles.
 
 
 :::info Note
-**UFW** reste l'outil recommandé pour ce TP car il est simple, toujours maintenu et que notre objectif est une première approche des _firewalls_. Sous le capot, UFW utilise désormais **nftables** comme backend (depuis Debian 10).
+**UFW** reste l'outil recommandé pour ce TP car il est simple, toujours maintenu et que notre objectif est une première approche des _firewalls_. Sous le capot, UFW utilise **nftables** ou **iptables** comme backend (depuis Debian 10).
 
 D'autres distributions — à base de RedHat — utilisent **firewalld**.
 
