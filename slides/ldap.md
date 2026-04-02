@@ -374,6 +374,40 @@ _footer: ''
 
 ---
 
+## Modèle fonctionnel
+
+Les opérations LDAP définies par le protocole :
+
+| Catégorie | Opération, description |
+|-----------|-------------|
+| **authentification** | `bind`, `unbind`, `abandon`, connection, déconnexion au serveur
+| **requête** | `search` pour la recherche et `compare` pour la comparaison d'un attribut
+| **mise à jour** | `add`, `delete`, `modify` pour le CRUD et `modrdn` pour la modification dans un _shell_|
+
+
+À toutes ces opération correspond une commandes `ldap_foo_`
+
+---
+
+## Modèle fonctionnel
+
+`ldapsearch` – recherche dans l'annuaire
+<br/>
+
+```bash
+ldapsearch -x -H ldap://localhost \
+  -b "dc=example,dc=org" \
+  "(objectclass=inetOrgPerson)" cn mail
+```
+
+- `-x` : authentification simple
+- `-H` : URI du serveur
+- `-b` : base de recherche (_base DN_)
+- `"(objectclass=inetOrgPerson)"` : filtre
+- `cn mail` : attributs à retourner
+
+---
+
 ## Portée de la recherche (search scope)
 
 - **base** – l'entrée elle-même
@@ -406,7 +440,7 @@ Par défaut, LDAP transmet **en clair** :
 | Méthode | Port | Description |
 |---------|------|-------------|
 | **LDAPS** | 636 | TLS dès la connexion <br/>Initiation d'une connexion TLS sur un autre port (comme HTTPS) |
-| **StartTLS** | 389 | Upgrade en TLS<br/>Prénégotiation d'une connexion TLS (StartTLS) sur le port standard |
+| **StartTLS** | 389 | Upgrade en TLS<br/>Prénégotiation d'une connexion TLS (_StartTLS_) sur le port standard |
 
 ---
 
