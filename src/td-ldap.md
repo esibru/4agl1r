@@ -7,7 +7,7 @@ Je profite de ce résumé pour remercier Gérarld Carter, auteur de *LDAP Admini
 :::
 
 :::warning Remarque importante
-Ces notes concernent la version 2.4 d'OpenLDAP. Cette version apporte un grand changement en terme de configuration. En effet la configuration d'OpenLDAP 2.3 se concentrait dans le fichier `/etc/ldap/slapd.conf` tandis que la configuration d'OpenLDAP 2.4 se trouve dans le répertoire `/etc/ldap/slapd.d`, répertoire qu'il est déconseillé de manipuler brutalement. Cette nouvelle approche permettra notamment de modifier le serveur au *runtime*.
+Ces notes concernent les versions ≥2.4 d'OpenLDAP. La version 2.4 apporte un grand changement en terme de configuration. En effet la configuration d'OpenLDAP 2.3 se concentrait dans le fichier `/etc/ldap/slapd.conf` tandis que la configuration d'OpenLDAP 2.4 se trouve dans le répertoire `/etc/ldap/slapd.d`, répertoire qu'il est déconseillé de manipuler brutalement. Cette nouvelle approche permettra notamment de modifier le serveur au *runtime*.
 
 > Although the slapd-config(5) system stores its configuration as (text-based) LDIF files, you should never edit any of the LDIF files directly. Configuration changes should be performed via LDAP operations, e.g. ldapadd(1), ldapdelete(1), or ldapmodify(1).  
 > — Extrait de http://www.openldap.org/doc/admin24/slapdconf2.html
@@ -528,7 +528,7 @@ objectclass ( 1.3.6.1.4.1.23162.504.1.1 NAME 'beerObject'
 
 ### Inclusion du schéma dans l'annuaire
 
-Une fois le fichier de schéma créé, il faut l'ajouter dans l'annuaire. Pour ajouter / activer un schéma, on utilise un fichier `.ldif` (pas un fichier `.schema`). Pour ce faire il y a deux manières de faire 👍
+Une fois le fichier de schéma créé, il faut l'ajouter dans l'annuaire. Pour ajouter / activer un schéma, on utilise un fichier `.ldif` (pas un fichier `.schema`). Pour ce faire il y a deux manières de faire : 
 
 1. un utilisant un (vieux) [script effectuant cette opération](http://drfugazi.eu.org/en/ldap/schema-conversion-ldap-ldif);
 
@@ -563,7 +563,9 @@ Une fois le fichier de schéma créé, il faut l'ajouter dans l'annuaire. Pour a
         cp ldif_output/cn\=config/cn\=schema/cn\=\{3\}beer.ldif beer.ldif
         ```
 
-    - éditer le fichier _ldif_ pour retirer les parties inutiles. C'est-à-dire; renommer le `dn` en `dn: cn=beer,cn=schema,cn=config`, conserver `objectClass`, `cn`, les `olcAttrubuteTypes` et les `alcObjectClasses`. 
+    - éditer le fichier _ldif_ pour retirer les parties inutiles. 
+    
+        C'est-à-dire : renommer le `dn` en `dn: cn=beer,cn=schema,cn=config`, conserver `objectClass`, `cn`, les `olcAttrubuteTypes` et les `alcObjectClasses`. 
 
 Une fois le fichier converti, vous pouvez l'inclure comme expliqué dans la section « À propos des schémas », à savoir 
 
@@ -763,7 +765,7 @@ chmod 644 server.crt ca.crt
 ```
 
 :::warning Attention
-Le `CN` (Common Name) du certificat serveur **doit correspondre** au nom d'hôte utilisé par les clients pour se connecter au serveur LDAP.
+Le `CN` (Common Name) du certificat serveur — et donc pas du CA — **doit correspondre** au nom d'hôte utilisé par les clients pour se connecter au serveur LDAP.
 :::
 
 :::warning Rappel
@@ -821,15 +823,25 @@ ss -tlnp | grep 636
 
 ### Test de la connexion sécurisée
 
-#### Test avec StartTLS (port 389)
+Test avec StartTLS (port 389)
+
+```bash
+# -ZZ force StartTLS et échoue si TLS n'est pas disponible
+ldapsearch -ZZ -H ldap:/// -x \
+    -b "dc=esigoto,dc=info" "(objectclass=*)"
+```
+
+:::warning 
+Si le nom est défini, la connection peut s'initier avec un nom. Par exemple : 
 
 ```bash
 # -ZZ force StartTLS et échoue si TLS n'est pas disponible
 ldapsearch -ZZ -H ldap://ldap.esigoto.info -x \
     -b "dc=esigoto,dc=info" "(objectclass=*)"
 ```
+:::
 
-#### Test avec LDAPS (port 636)
+Test avec LDAPS (port 636)
 
 ```bash
 ldapsearch -H ldaps://ldap.esigoto.info -x \
@@ -840,7 +852,7 @@ ldapsearch -H ldaps://ldap.esigoto.info -x \
 Si vous obtenez une erreur de validation de certificat, vous pouvez temporairement (pour les tests uniquement !) désactiver la vérification :
 
 ```bash
-LDAPTLS_REQCERT=never ldapsearch -ZZ -H ldap://localhost ...
+LDAPTLS_REQCERT=never ldapsearch -ZZ -H ldap:///…
 ```
 
 **Ne jamais faire cela en production !**
