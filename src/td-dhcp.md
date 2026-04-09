@@ -40,6 +40,10 @@ Configurez une réservation d'adresse IP basée sur l'adresse MAC de votre machi
 |Attribuez l'adresse `172.i.j.42` à votre machine
 
 
+:::warning Remarque
+Pour les exercices faits dans le laboratoire virtuel _aka_ le _vlab_, désactivez le serveur `dhcp` dès que l'exercice est terminé pour ne pas créer de conflits entre les différentes machines du labo. 
+:::
+
 ## Exercice avancé : DHCPv6
 
 :::tip Pour aller plus loin

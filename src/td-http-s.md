@@ -57,7 +57,7 @@ Vérifier que tout est fonctionnel en ajoutant une page `index.php` au site web 
 
 ### 3. VirtualHost
 
-Créer deux sites différents; `red.esigoto.info` et `blue.esigoto.info` par exemple. Le premier rendant la page `index.hmtl` et le second la page `index.php` précédemment créées. 
+Créer deux sites différents; `red.esigoto.info` et `blue.esigoto.info` par exemple. Le premier rendant la page `index.html` et le second la page `index.php` précédemment créées. 
 
 :::info Qu'est-ce qu'un VirtualHost ?
 Un VirtualHost permet d'héberger plusieurs sites web sur un même serveur Apache. Chaque site peut avoir :

@@ -361,11 +361,11 @@ Les _status code_ sont catégorisés, le premier chiffre décrit le type de rép
 
 Il y a 5 catégories :
 
-- `1xx` (Informational): The request was received, continuing process
-- `2xx` (Successful): The request was successfully received, understood, and accepted 
-- `3xx` (Redirection): Further action needs to be taken in order to complete the request 
-- `4xx` (Client Error): The request contains bad syntax or cannot be fulfilled 
-- `5xx` (Server Error): The server failed to fulfill an apparently valid request
+- `1xx` _(Informational): The request was received, continuing process_
+- `2xx` _(Successful): The request was successfully received, understood, and accepted_ 
+- `3xx` _(Redirection): Further action needs to be taken in order to complete the request_ 
+- `4xx` _(Client Error): The request contains bad syntax or cannot be fulfilled_
+- `5xx` _(Server Error): The server failed to fulfill an apparently valid request_
 
 ---
 ## HTTP
@@ -435,6 +435,58 @@ Les cookies ont trois usages principaux :
 - La gestion de session
 - La personnalisation
 - Le pistage
+
+---
+## HTTP - Cookie - Pistage
+
+Le pistage utilise les **cookies tiers** (_third-party cookies_)
+<br/>
+
+<!-- _class: important -->
+> Un cookie est dit **tiers** quand son domaine diffère du site visité dans la barre d'adresse.  
+> Le **RGPD** (règlement général de la protection des données) impose le consentement explicite avant le dépôt de tels cookies.
+
+
+---
+**HTTP - Cookie - Pistage**
+
+1. `example.com` **intègre** dans sa page une ressource de `pub.dollar` (par exemple un pixel de tracking) :
+
+   ```html
+   <img src="https://pub.dollar/track?site=example.com&page=/article_42" />
+   ```
+2. Le navigateur effectue une requête **directement vers `pub.dollar`**.
+
+3. `pub.dollar` dépose **son propre cookie** dans le navigateur :
+
+   ```http
+   Set-Cookie: id=abc; domain=pub.dollar
+   ```
+
+4. Sur tout autre site partenaire, le navigateur **envoie** ce cookie lors des requêtes vers `pub.dollar`… et `pub.dollar` corrèle le **parcours de navigation** sur l'ensemble de ses sites partenaires.
+
+
+---
+## HTTP - Cookie - _same-origin policy_
+
+La **_same-origin policy_** (SOP) est une règle de sécurité des navigateurs 
+<br/>
+
+**Définition**  
+Un script ne peut lire que les ressources (cookies, DOM…) **de sa propre origine**.  
+<br/>
+
+Une **origine** = `scheme` + `host` + `port`  
+Par exemple `https://example.com`
+
+`example.com` ne peut donc **pas lire** les cookies de `pub.dollar` — et vice-versa.
+
+---
+**HTTP - Cookie - _same-origin policy_**
+<br/>
+<br/>
+
+**Blocage des cookies tiers** : les navigateurs modernes refusent de stocker/envoyer un cookie cross-site :
 
 ---
 

@@ -3,7 +3,7 @@
 Mise en œuvre des concepts d'annuaire LDAP via OpenLDAP (http://openldap.org).
 
 :::tip Remerciements
-Je profite de ce résumé pour remercier Gérarld Carter, auteur de *LDAP Administration System*, dont les éclaircissements m'ont beaucoup apporté. Les étudiants de la promotion 2004-2005 ont aussi apporté leur pierre à l'édifice en donnant les exemples de manipulation pour les API Perl et PHP. Qu'ils en soient ici remerciés.
+Je profite de ce résumé pour remercier Gérarld Carter, auteur de *LDAP Administration System*, dont les éclaircissements m'ont beaucoup apporté. Les étudiants de la promotion 2004-2005 👀😨 ont aussi apporté leur pierre à l'édifice en donnant les exemples de manipulation pour les API Perl et PHP. Qu'ils en soient ici remerciés.
 :::
 
 :::warning Remarque importante
@@ -350,7 +350,7 @@ Les options signifient :
 Si l'on veut consulter le contenu de l'annuaire, un `ldapsearch` comme celui-ci devrait suffire :
 
 ```bash
-ldapsearch -LLL -x -b "dc=esi,dc=be" "(objectclass=*)"
+ldapsearch -LLL -x -b "dc=esigoto,dc=info" "(objectclass=*)"
 ```
 
 L'option `-x` indique que nous voulons une authentification simple (à l'inverse d'une authentification SASL dont nous n'avons pas parlé), l'option `-b` précise quel est le suffixe de l'annuaire.
@@ -528,9 +528,48 @@ objectclass ( 1.3.6.1.4.1.23162.504.1.1 NAME 'beerObject'
 
 ### Inclusion du schéma dans l'annuaire
 
-Une fois le fichier de schéma créé, il faut l'ajouter dans l'annuaire. Pour ajouter / activer un schéma, on utilise un fichier `.ldif` (pas un fichier `.schema`). Pour ce faire il existe un [script effectuant cette opération](http://drfugazi.eu.org/en/ldap/schema-conversion-ldap-ldif).
+Une fois le fichier de schéma créé, il faut l'ajouter dans l'annuaire. Pour ajouter / activer un schéma, on utilise un fichier `.ldif` (pas un fichier `.schema`). Pour ce faire il y a deux manières de faire 👍
 
-Une fois le fichier converti, vous pouvez l'inclure comme expliqué dans la section « À propos des schémas ».
+1. un utilisant un (vieux) [script effectuant cette opération](http://drfugazi.eu.org/en/ldap/schema-conversion-ldap-ldif);
+
+2. en suivant la doc de _openldap_ avec `slaptest` : 
+
+    - créer un fichier `temp.conf` 
+
+        ```bash
+        cat > temp.conf << 'EOF'
+        include /etc/ldap/schema/core.schema
+        include /etc/ldap/schema/cosine.schema
+        include /etc/ldap/schema/inetorgperson.schema
+        include beer.schema
+        EOF
+        ```
+
+    - créer un répertoire qui recevra le fichier _ldif_
+        
+        ```bash
+        mkdir -p ldif_output
+        ```
+
+    - demander à `slaptest` de faire la conversion
+
+        ```bash
+        slaptest -f temp.conf -F ldif_output
+        ```
+
+    - copier le fichier dans le répertoire courant (par facilité)
+
+        ```bash
+        cp ldif_output/cn\=config/cn\=schema/cn\=\{3\}beer.ldif beer.ldif
+        ```
+
+    - éditer le fichier _ldif_ pour retirer les parties inutiles. C'est-à-dire; renommer le `dn` en `dn: cn=beer,cn=schema,cn=config`, conserver `objectClass`, `cn`, les `olcAttrubuteTypes` et les `alcObjectClasses`. 
+
+Une fois le fichier converti, vous pouvez l'inclure comme expliqué dans la section « À propos des schémas », à savoir 
+
+```bash 
+ldapadd -Y external -H ldapi:/// -f beer.ldif
+```
 
 ### Ajout d'éléments
 
