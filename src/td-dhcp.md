@@ -41,7 +41,21 @@ Configurez une réservation d'adresse IP basée sur l'adresse MAC de votre machi
 
 
 :::warning Remarque
-Pour les exercices faits dans le laboratoire virtuel _aka_ le _vlab_, désactivez le serveur `dhcp` dès que l'exercice est terminé pour ne pas créer de conflits entre les différentes machines du labo. 
+Pour les exercices faits dans le laboratoire virtuel _aka_ le _vlab_, à un moment, il y aura plusieurs serveurs DHCP sur le même _vswitch_ et c'est le premier qui répond qui gagne.
+
+Le serveur DHCP de `pica` répondra la plupart du temps. Vous pouvez bloquer ses réponses — il répond en UDP sur le port 67,
+
+```bash
+sudo ufw deny proto udp from 10.0.0.1 port 67
+```
+
+ou avec `ipatbles`
+
+```bash
+iptables -I INPUT -p udp --sport 67 -s 10.0.0.1 -j DROP
+```
+
+Lorsque votre manip DHCP est terminée, désactivez le serveur pour ne pas créer de conflits entre les différentes machines du labo. 
 :::
 
 ## Exercice avancé : DHCPv6
