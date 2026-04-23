@@ -111,9 +111,9 @@ Exemple pour un service `wiki.esigoto.info` :
 :::warning Remarque
 Dans le cadre du laboratoire _vlab_, l'IP de serveur n'étant pas publique, le service web n'est pas accessible sur Internet… **mais**… 
 
-La machine `pica` accepte n'importe quel nom de la forme `placeholder.vlab.esigoto.info` et rediriqe vers la machine `placeholder.in.esigoto.info`. Si le _vhost_ de la machine `placeholder` est `placeholder.vlab.esigoto.info`, le site sera servi. 
+La machine `pica` accepte n'importe quel nom de la forme `placeholder.vlab.esigoto.info` et redirige vers la machine `placeholder.in.esigoto.info`. Si le _vhost_ de la machine `placeholder` est `placeholder.vlab.esigoto.info`, le site sera servi. 
 
-_cerise sur le gâteau_ 🍒 un certificat `https` est  _offert_ (merci Caddy server).
+_Cerise sur le gâteau_ 🍒 un certificat `https` est automatiquement  _offert_ (merci Caddy server).
 :::
 
 ### 5. HTTPS avec Let's Encrypt (bonus)
