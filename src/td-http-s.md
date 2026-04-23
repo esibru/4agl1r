@@ -108,6 +108,14 @@ Exemple pour un service `wiki.esigoto.info` :
 </VirtualHost>
 ```
 
+:::warning Remarque
+Dans le cadre du laboratoire _vlab_, l'IP de serveur n'étant pas publique, le service web n'est pas accessible sur Internet… **mais**… 
+
+La machine `pica` accepte n'importe quel nom de la forme `placeholder.vlab.esigoto.info` et rediriqe vers la machine `placeholder.in.esigoto.info`. Si le _vhost_ de la machine `placeholder` est `placeholder.vlab.esigoto.info`, le site sera servi. 
+
+_cerise sur le gâteau_ 🍒 un certificat `https` est  _offert_ (merci Caddy server).
+:::
+
 ### 5. HTTPS avec Let's Encrypt (bonus)
 
 Pour sécuriser vos sites avec HTTPS :
